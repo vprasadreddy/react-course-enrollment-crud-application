@@ -7,8 +7,10 @@ const { body, check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const authenticate = require("../middlewares/authenticate");
 
-router.get("/", (req, res) => {
-  res.send("response from user router");
+//get all Users
+router.get("/", async (req, res) => {
+  let users = await User.find({});
+  res.send(users);
 });
 
 router.post(
@@ -70,6 +72,7 @@ router.post(
         email,
       });
       if (user) {
+        //console.log(user.id);
         //compare password
         let isPasswordMatch = await bcrypt.compare(password, user.password);
         if (isPasswordMatch) {
@@ -87,6 +90,11 @@ router.post(
             res.status(200).json({
               message: "Login success",
               token,
+              user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+              },
             });
           });
         } else {
@@ -116,7 +124,7 @@ router.put(
       name: req.body.name,
       email: req.body.email,
     };
-    User.findByIdAndUpdate(
+    User.findOneAndUpdate(
       email,
       { $set: updatedUser },
       { new: true },

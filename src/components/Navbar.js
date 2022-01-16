@@ -1,12 +1,21 @@
 import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams,
+  NavLink,
+} from "react-router-dom";
 
 function Navbar() {
   return (
     <React.Fragment>
-      <nav className="navbar navbar-expand-lg navbar-light bg-primary">
-        <a className="navbar-brand" href="#">
-          Navbar
-        </a>
+      <nav className="navbar navbar-expand-lg navbar-light bg-primary navbar-top">
+        <NavLink to="/" className="navbar-brand">
+          Course Enrollment Portal
+        </NavLink>
         <button
           className="navbar-toggler"
           type="button"
@@ -19,17 +28,16 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div className="navbar-nav">
-            <a className="nav-link active" href="#">
-              Home <span className="sr-only">(current)</span>
-            </a>
-            <a className="nav-link" href="#">
-              Enroll Courses
-            </a>
-            <a className="nav-link" href="#">
-              View My Courses
-            </a>
-            <a className="nav-link disabled">Disabled</a>
+          <div className="navbar-nav ml-auto">
+            <NavLink to="/" className="nav-link active">
+              Home
+            </NavLink>
+            <NavLink to="/login" className="nav-link">
+              Login
+            </NavLink>
+            <NavLink to="/register" className="nav-link">
+              Register
+            </NavLink>
           </div>
         </div>
       </nav>

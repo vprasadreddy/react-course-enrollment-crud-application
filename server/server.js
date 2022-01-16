@@ -28,9 +28,11 @@ mongoose
 
 const userRouter = require("./routes/userRouter");
 const coursesRouter = require("./routes/coursesRouter");
+const enrollmentsRouter = require("./routes/enrollmentsRouter");
 //router configuration
 app.use("/api/users", userRouter);
 app.use("/api/courses", coursesRouter);
+app.use("/api/enrollments", enrollmentsRouter);
 
 app.get("/", (req, res) => {
   res.send("Server side code get request!!!");

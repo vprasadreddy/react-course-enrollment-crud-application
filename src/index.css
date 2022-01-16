@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+a {
+  text-decoration: none !important;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -17,4 +21,61 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.login-box {
+  max-width: 400px;
+  border-radius: 5px;
+  background-color: #ecf0f1;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.navbar-top {
+  background-color: #f1c40f !important;
+}
+
+.navbar-top a {
+  color: white !important;
+}
+
+.enrollments-row {
+  margin-top: 5rem !important;
+}
+
+.view-my-courses {
+  /* background-color: #3498db !important; */
+  background: #8e2de2; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #4a00e0,
+    #8e2de2
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #4a00e0,
+    #8e2de2
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.enroll-course {
+  /* background-color: #00b894 !important; */
+  /* background-image: linear-gradient(-60deg, rgb(37, 153, 147) 0%, #3498db 100%); */
+  /* background-image: linear-gradient(to right, #0acffe 0%, #495aff 100%); */
+  background-image: linear-gradient(to top, #e14fad 0%, #f9d423 100%);
+}
+
+.view-my-courses,
+.enroll-course {
+  color: white !important;
+  border-radius: 0.9375rem !important;
+  cursor: pointer;
+  border-style: none;
+}
+
+.view-my-courses-body,
+.enroll-course-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
