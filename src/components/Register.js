@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -11,16 +12,17 @@ import {
 } from "react-router-dom";
 
 function Register() {
-  const [loginFormData, setLoginFormData] = useState({
+  const [registerFormData, setRegisterFormData] = useState({
+    name: "",
     email: "",
     password: "",
   });
 
-  let { email, password } = loginFormData;
+  let { email, password } = registerFormData;
 
   const handleInputChange = (e) => {
-    setLoginFormData({
-      ...loginFormData,
+    setRegisterFormData({
+      ...registerFormData,
       [e.target.name]: e.target.value,
     });
   };
@@ -32,9 +34,17 @@ function Register() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data, e) => {
+  const onSubmit = async (data, e) => {
     //console.log(data, e);
     e.preventDefault();
+    try {
+      let response = await axios.post(
+        "http://localhost:9999/api/users/register",
+        registerFormData
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const onError = (errors, e) => console.log(errors, e);
@@ -55,7 +65,8 @@ function Register() {
                     className="form-control"
                     id="name"
                     name="name"
-                    value={loginFormData.email}
+                    placeholder="Name"
+                    value={registerFormData.name}
                     onChange={handleInputChange}
                     {...register("name", { required: true })}
                   />
@@ -76,7 +87,8 @@ function Register() {
                     className="form-control"
                     id="email"
                     name="email"
-                    value={loginFormData.email}
+                    placeholder="Email"
+                    value={registerFormData.email}
                     onChange={handleInputChange}
                     {...register("email", { required: true })}
                   />
@@ -100,7 +112,8 @@ function Register() {
                     className="form-control"
                     id="password"
                     name="password"
-                    value={loginFormData.password}
+                    placeholder="Password"
+                    value={registerFormData.password}
                     onChange={handleInputChange}
                     {...register("password", { required: true })}
                   />

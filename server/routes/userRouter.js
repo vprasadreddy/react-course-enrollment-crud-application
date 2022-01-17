@@ -82,21 +82,27 @@ router.post(
               id: user.id,
               name: user.name,
               isAdmin: user.isAdmin,
+              email: user.email,
             },
           };
 
-          jwt.sign(payload, process.env.JWT_SECRET_KEY, (error, token) => {
-            if (error) throw error;
-            res.status(200).json({
-              message: "Login success",
-              token,
-              user: {
-                id: user.id,
-                name: user.name,
-                email: user.email,
-              },
-            });
-          });
+          jwt.sign(
+            payload,
+            process.env.JWT_SECRET_KEY,
+            { expiresIn: 3600000 },
+            (error, token) => {
+              if (error) throw error;
+              res.status(200).json({
+                message: "Login success",
+                token,
+                user: {
+                  id: user.id,
+                  name: user.name,
+                  email: user.email,
+                },
+              });
+            }
+          );
         } else {
           return res.status(400).json({ errormessage: "Invalid credentials" });
         }

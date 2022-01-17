@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,13 +7,27 @@ import {
   useRouteMatch,
   useParams,
   NavLink,
+  Navigate,
+  useNavigate,
 } from "react-router-dom";
+import { UserContext } from "../App";
 
 function Navbar() {
+  const history = useNavigate();
+  const [userData, setUserData] = useContext(UserContext);
+  let token = localStorage.getItem("token");
+
+  const clearSession = () => {
+    setUserData(null);
+    localStorage.setItem("token", "");
+    localStorage.setItem("user", "");
+    history("/login");
+  };
+
   return (
     <React.Fragment>
       <nav className="navbar navbar-expand-lg navbar-light bg-primary navbar-top">
-        <NavLink to="/" className="navbar-brand">
+        <NavLink to="/home" className="navbar-brand">
           Course Enrollment Portal
         </NavLink>
         <button
@@ -29,15 +43,27 @@ function Navbar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav ml-auto">
-            <NavLink to="/" className="nav-link active">
-              Home
-            </NavLink>
-            <NavLink to="/login" className="nav-link">
-              Login
-            </NavLink>
-            <NavLink to="/register" className="nav-link">
-              Register
-            </NavLink>
+            {token && (
+              <NavLink to="/home" className="nav-link active">
+                Home
+              </NavLink>
+            )}
+            {!token && (
+              <>
+                <NavLink to="/login" className="nav-link">
+                  Login
+                </NavLink>
+                <NavLink to="/register" className="nav-link">
+                  Register
+                </NavLink>
+              </>
+            )}
+
+            {token && (
+              <a className="nav-link" onClick={clearSession}>
+                Logout{" "}
+              </a>
+            )}
           </div>
         </div>
       </nav>

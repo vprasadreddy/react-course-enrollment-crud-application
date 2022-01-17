@@ -6,6 +6,7 @@
 
 a {
   text-decoration: none !important;
+  cursor: pointer;
 }
 
 html {
@@ -29,8 +30,24 @@ code {
   background-color: #ecf0f1;
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-style: none;
 }
 
+.enrollcourse-box {
+  max-width: 400px;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-style: none;
+}
+
+.courses-table {
+  max-width: 400px;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-style: none;
+}
 .navbar-top {
   background-color: #f1c40f !important;
 }
@@ -40,7 +57,7 @@ code {
 }
 
 .enrollments-row {
-  margin-top: 5rem !important;
+  margin-top: 3rem !important;
 }
 
 .view-my-courses {

@@ -1,5 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
+import React, { useState, useEffect, createContext } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,24 +13,32 @@ import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import MyCourses from "./components/MyCourses";
+import ViewMyCourses from "./components/ViewMyCourses";
 import EnrollCourse from "./components/EnrollCourse";
+import Logout from "./components/Logout";
 import PageNotFound from "./components/PageNotFound";
 
+export const UserContext = createContext();
+
 function App() {
+  const [userData, setUserData] = useState(null);
   return (
     <div className="App">
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/viewMyCourses" element={<MyCourses />} />
-          <Route exact path="/enrollCourse" element={<EnrollCourse />} />
-          <Route component={<PageNotFound />} />
-        </Routes>
-      </Router>
+      <UserContext.Provider value={[userData, setUserData]}>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route exact path="/" element={<Login />} />
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/home" element={<Home />} />
+            <Route exact path="/register" element={<Register />} />
+            <Route exact path="/viewMyCourses" element={<ViewMyCourses />} />
+            <Route exact path="/enrollCourse" element={<EnrollCourse />} />
+            <Route exact path="/logout" element={<Logout />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </Router>
+      </UserContext.Provider>
     </div>
   );
 }
