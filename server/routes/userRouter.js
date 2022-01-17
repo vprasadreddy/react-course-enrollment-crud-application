@@ -34,7 +34,7 @@ router.post(
         email,
       });
       if (user) {
-        return res.status(400).json({ "error message": "user already exists" });
+        return res.status(400).json({ message: "User already exists" });
       }
       //encrypt the password
       let salt = await bcrypt.genSalt(10);
@@ -47,7 +47,7 @@ router.post(
       let savedUser = await newUser.save();
       return res
         .status(200)
-        .json({ message: "user registered successfully", user: savedUser });
+        .json({ message: "Registration successfull!!!", user: savedUser });
     }
   }
 );
@@ -81,8 +81,8 @@ router.post(
             user: {
               id: user.id,
               name: user.name,
-              isAdmin: user.isAdmin,
               email: user.email,
+              isAdmin: user.isAdmin,
             },
           };
 
@@ -99,15 +99,16 @@ router.post(
                   id: user.id,
                   name: user.name,
                   email: user.email,
+                  isAdmin: user.isAdmin,
                 },
               });
             }
           );
         } else {
-          return res.status(400).json({ errormessage: "Invalid credentials" });
+          return res.status(400).json({ message: "Invalid credentials" });
         }
       } else {
-        return res.status(400).json({ errormessage: "User not found" });
+        return res.status(400).json({ message: "User not found" });
       }
     }
   }
@@ -140,7 +141,7 @@ router.put(
         } else {
           res
             .status(200)
-            .json({ msg: "User updated successfully", User: document });
+            .json({ message: "User updated successfully", User: document });
         }
       }
     );
@@ -172,25 +173,23 @@ router.delete(
               res.status(400).json({ err: err });
             } else {
               res.status(200).json({
-                msg: "User deleted successfully",
+                message: "User deleted successfully",
                 user: document,
               });
             }
           });
         } else {
           return res.status(400).json({
-            errormessage: `User not found with email: ${email}`,
+            message: `User not found with email: ${email}`,
           });
         }
       } else {
-        return res
-          .status(400)
-          .json({ errormessage: `User email cannot be empty` });
+        return res.status(400).json({ message: `User email cannot be empty` });
       }
     } else {
       return res
         .status(401)
-        .json({ errormessage: `User is not authorized to delete user` });
+        .json({ message: `Current user is not authorized to delete the user` });
     }
   }
 );

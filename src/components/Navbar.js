@@ -24,6 +24,15 @@ function Navbar() {
     history("/login");
   };
 
+  let username = "";
+  let isAdmin = "";
+
+  if (localStorage.getItem("user")) {
+    let user = JSON.parse(localStorage.getItem("user"));
+    username = user.name;
+    isAdmin = user.isAdmin;
+  }
+
   return (
     <React.Fragment>
       <nav className="navbar navbar-expand-lg navbar-light bg-primary navbar-top">
@@ -46,6 +55,11 @@ function Navbar() {
             {token && (
               <NavLink to="/home" className="nav-link active">
                 Home
+              </NavLink>
+            )}
+            {token && isAdmin && (
+              <NavLink to="/adminDashboard" className="nav-link active">
+                Admin Dashboard
               </NavLink>
             )}
             {!token && (

@@ -15,12 +15,12 @@ import { Table } from "react-bootstrap";
 
 function ViewMyCourses() {
   const [userData, setUserData] = useContext(UserContext);
+  let token = localStorage.getItem("token");
   const [courses, setCourses] = useState([]);
   let username = "";
   if (userData) {
     username = userData.user.name;
   }
-  let token = localStorage.getItem("token");
   useEffect(() => {
     const getCourses = async () => {
       let response = await axios.get(
@@ -36,6 +36,11 @@ function ViewMyCourses() {
     };
     getCourses();
   }, []);
+
+  if (!token) {
+    // history("/login");
+    return <Navigate replace to="/login" />;
+  }
   return (
     <React.Fragment>
       <h5 className="d-flex justify-content-center mt-5">My Courses</h5>
@@ -51,9 +56,9 @@ function ViewMyCourses() {
           <tbody>
             {courses.map((course, index) => {
               return (
-                <tr key={course.courses[0]["_id"]}>
+                <tr key={course._id}>
                   <td>{index}</td>
-                  <td>{course.courses[0]["name"]}</td>
+                  <td>{course.courseid.name}</td>
                   <td>Delete</td>
                 </tr>
               );

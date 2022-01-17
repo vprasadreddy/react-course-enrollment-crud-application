@@ -33,9 +33,7 @@ router.post(
             name,
           });
           if (course) {
-            return res
-              .status(400)
-              .json({ "error message": "course already exists" });
+            return res.status(400).json({ message: "course already exists" });
           }
           let newCourse = new Course({
             name,
@@ -47,12 +45,12 @@ router.post(
             course: savedCourse,
           });
         } catch (error) {
-          return res.status(400).json({ errormessage: error });
+          return res.status(400).json({ message: error });
         }
       } else {
         return res
           .status(401)
-          .json({ errormessage: `User is not authorized to delete course` });
+          .json({ message: `User is not authorized to delete course` });
       }
     }
   }
@@ -83,16 +81,17 @@ router.put(
           if (err) {
             res.status(400).json({ err: err });
           } else {
-            res
-              .status(200)
-              .json({ msg: "Course updated successfully", Course: document });
+            res.status(200).json({
+              message: "Course updated successfully",
+              course: document,
+            });
           }
         }
       );
     } else {
       return res
         .status(401)
-        .json({ errormessage: `User is not authorized to delete course` });
+        .json({ message: `User is not authorized to update the course` });
     }
   }
 );
@@ -115,25 +114,23 @@ router.delete(
               res.status(400).json({ err: err });
             } else {
               res.status(200).json({
-                msg: "Course deleted successfully",
+                message: "Course deleted successfully",
                 course: document,
               });
             }
           });
         } else {
           return res.status(400).json({
-            errormessage: `Course not found with name: ${name}`,
+            message: `Course not found with name: ${name}`,
           });
         }
       } else {
-        return res
-          .status(400)
-          .json({ errormessage: `Course name cannot be empty` });
+        return res.status(400).json({ message: `Course name cannot be empty` });
       }
     } else {
       return res
         .status(401)
-        .json({ errormessage: `User is not authorized to delete course` });
+        .json({ message: `User is not authorized to delete the course` });
     }
   }
 );

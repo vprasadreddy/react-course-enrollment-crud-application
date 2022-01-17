@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import {
   BrowserRouter as Router,
@@ -61,31 +62,42 @@ function EnrollCourse() {
           },
         }
       );
+      toast.success(response.data.message);
     } catch (error) {
       if (error.response) {
         /*
          * The request was made and the server responded with a
          * status code that falls out of the range of 2xx
          */
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
+        // console.log(error.response.data);
+        // console.log(error.response.status);
+        // console.log(error.response.headers);
+        if (error.response.status == 400) {
+          //console.log(error.response.data);
+          toast.error(error.response.data.message);
+        }
       } else if (error.request) {
         /*
          * The request was made but no response was received, `error.request`
          * is an instance of XMLHttpRequest in the browser and an instance
          * of http.ClientRequest in Node.js
          */
-        console.log(error.request);
+        //console.log(error.request);
+        toast.error(error.request);
       } else {
         // Something happened in setting up the request and triggered an Error
-        console.log("Error", error.message);
+        //console.log("Error", error.message);
       }
-      console.log(error);
+      //console.log(error);
     }
   };
 
   const onError = (errors, e) => console.log(errors, e);
+
+  if (!token) {
+    // history("/login");
+    return <Navigate replace to="/login" />;
+  }
   return (
     <div>
       <React.Fragment>
@@ -99,7 +111,7 @@ function EnrollCourse() {
                 </label>
                 <div className="col-sm-12">
                   <select
-                    class="custom-select"
+                    className="custom-select"
                     id="courseid"
                     name="courseid"
                     {...register("courseid", { required: true })}

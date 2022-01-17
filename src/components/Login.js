@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import {
   BrowserRouter as Router,
@@ -48,8 +49,33 @@ function Login() {
       setUserData(response.data);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
+      toast.success(response.data.message);
     } catch (error) {
-      console.error(error);
+      if (error.response) {
+        /*
+         * The request was made and the server responded with a
+         * status code that falls out of the range of 2xx
+         */
+        // console.log(error.response.data);
+        // console.log(error.response.status);
+        // console.log(error.response.headers);
+        if (error.response.status == 400) {
+          //console.log(error.response.data);
+          toast.error(error.response.data.message);
+        }
+      } else if (error.request) {
+        /*
+         * The request was made but no response was received, `error.request`
+         * is an instance of XMLHttpRequest in the browser and an instance
+         * of http.ClientRequest in Node.js
+         */
+        //console.log(error.request);
+        toast.error(error.request);
+      } else {
+        // Something happened in setting up the request and triggered an Error
+        //console.log("Error", error.message);
+      }
+      //console.log(error);
     }
   };
 
@@ -61,7 +87,7 @@ function Login() {
   return (
     <React.Fragment>
       <div className="container-fluid h-100">
-        <div className="row d-flex justify-content-center align-items-center h-100 mx-auto mt-3 login-box">
+        <div className="row d-flex justify-content-center align-items-center h-100 mx-auto mt-5 login-box">
           <h3 className="d-flex justify-content-center">Login</h3>
           <form onSubmit={handleSubmit(onSubmit, onError)}>
             <div className="row mb-3">

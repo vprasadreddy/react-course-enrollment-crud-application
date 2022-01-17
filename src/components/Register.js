@@ -67,8 +67,8 @@ function Register() {
                     name="name"
                     placeholder="Name"
                     value={registerFormData.name}
-                    onChange={handleInputChange}
                     {...register("name", { required: true })}
+                    onChange={handleInputChange}
                   />
                   {errors.email && (
                     <span className="form-text small text-danger">
@@ -89,8 +89,8 @@ function Register() {
                     name="email"
                     placeholder="Email"
                     value={registerFormData.email}
-                    onChange={handleInputChange}
                     {...register("email", { required: true })}
+                    onChange={handleInputChange}
                   />
                   {errors.email && (
                     <span className="form-text small text-danger">
@@ -114,8 +114,8 @@ function Register() {
                     name="password"
                     placeholder="Password"
                     value={registerFormData.password}
-                    onChange={handleInputChange}
                     {...register("password", { required: true })}
+                    onChange={handleInputChange}
                   />
                   {errors.password && (
                     <span className="form-text small text-danger">

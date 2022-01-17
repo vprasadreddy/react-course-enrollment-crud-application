@@ -15,8 +15,10 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import ViewMyCourses from "./components/ViewMyCourses";
 import EnrollCourse from "./components/EnrollCourse";
+import AdminDashboard from "./components/AdminDashboard";
 import Logout from "./components/Logout";
 import PageNotFound from "./components/PageNotFound";
+import { toast, ToastContainer } from "react-toastify";
 
 export const UserContext = createContext();
 
@@ -34,11 +36,23 @@ function App() {
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/viewMyCourses" element={<ViewMyCourses />} />
             <Route exact path="/enrollCourse" element={<EnrollCourse />} />
+            <Route exact path="/adminDashboard" element={<AdminDashboard />} />
             <Route exact path="/logout" element={<Logout />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>
       </UserContext.Provider>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }
