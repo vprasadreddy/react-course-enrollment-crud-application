@@ -4,9 +4,7 @@ const jwt = require("jsonwebtoken");
 let authenticate = (req, res, next) => {
   const token = req.header("x-access-token");
   if (!token) {
-    return res
-      .status(401)
-      .json({ errormessage: "Unauthorized. Access Denied" });
+    return res.status(401).json({ message: "Unauthorized. Access Denied" });
   }
 
   //verify the token

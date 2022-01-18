@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
 import {
   BrowserRouter as Router,
@@ -10,28 +11,29 @@ import {
   Navigate,
   useNavigate,
 } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "../App";
 
 function Navbar() {
   const history = useNavigate();
   const [userData, setUserData] = useContext(UserContext);
+  // const [isAdmin, setIsAdmin] = useState(null);
   let token = localStorage.getItem("token");
 
   const clearSession = () => {
     setUserData(null);
-    localStorage.setItem("token", "");
-    localStorage.setItem("user", "");
+    localStorage.clear();
     history("/login");
   };
 
-  let username = "";
-  let isAdmin = "";
+  // let username = "";
+  // let isAdmin = "";
 
-  if (localStorage.getItem("user")) {
-    let user = JSON.parse(localStorage.getItem("user"));
-    username = user.name;
-    isAdmin = user.isAdmin;
-  }
+  // if (localStorage.getItem("user")) {
+  //   let user = JSON.parse(localStorage.getItem("user"));
+  //   username = user.name;
+  //   isAdmin = user.isAdmin;
+  // }
 
   return (
     <React.Fragment>
@@ -57,7 +59,7 @@ function Navbar() {
                 Home
               </NavLink>
             )}
-            {token && isAdmin && (
+            {token && userData?.isAdmin && (
               <NavLink to="/adminDashboard" className="nav-link active">
                 Admin Dashboard
               </NavLink>

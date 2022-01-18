@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Table, Modal, Button, ListGroup } from "react-bootstrap";
 import {
   BrowserRouter as Router,
   Routes,
@@ -10,20 +11,235 @@ import {
   Navigate,
   useNavigate,
 } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
 import { UserContext } from "../App";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 function AdminDashboard() {
   const history = useNavigate();
   const [userData, setUserData] = useContext(UserContext);
+  const [myProfileData, setMyProfileData] = useState({});
+  const [isAdmin, setIsAdmin] = useState(null);
+  const [allCourses, setAllCourses] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [courseName, setCourseName] = useState("");
+  const [addCourseModalShow, setAddCourseModalShow] = useState(false);
+  const [updatedCourse, setUpdatedCourse] = useState({
+    name: "",
+    courseid: "",
+    isActive: true,
+  });
+  const [updateCourseModalShow, setUpdateCourseModalShow] = useState(false);
   let token = localStorage.getItem("token");
-  let username = "";
-  let isAdmin = "";
-
   if (localStorage.getItem("user")) {
     let user = JSON.parse(localStorage.getItem("user"));
-    username = user.name;
-    isAdmin = user.isAdmin;
   }
+
+  const addCourseModalOpen = () => {
+    setAddCourseModalShow(true);
+  };
+
+  const addCourseModalClose = () => {
+    setAddCourseModalShow(false);
+  };
+
+  const updateCourseModalOpen = (course) => {
+    let { name, courseid, isActive } = course;
+    setUpdateCourseModalShow(true);
+    setUpdatedCourse({ ...updatedCourse, name, courseid, isActive });
+  };
+
+  const updateCourseModalClose = () => {
+    setUpdateCourseModalShow(false);
+  };
+
+  const handleCourseUpdate = (e) => {
+    if (e.target.type == "checkbox") {
+      setUpdatedCourse({
+        ...updatedCourse,
+        [e.target.name]: !updatedCourse[e.target.name],
+      });
+    } else {
+      setUpdatedCourse({ ...updatedCourse, [e.target.name]: e.target.value });
+    }
+
+    console.log(updatedCourse);
+  };
+
+  useEffect(() => {
+    const getMyProfile = async () => {
+      try {
+        let response = await axios.get(
+          "http://localhost:9999/api/users/myProfile",
+          {
+            headers: {
+              "x-access-token": token,
+            },
+          }
+        );
+        setUserData(response.data.user);
+        setMyProfileData(response.data);
+        setIsAdmin(response.data.user.isAdmin);
+        //console.log(userData);
+      } catch (error) {
+        if (error.response) {
+          if (error.response.status == 400) {
+            //console.log(error.response.data);
+            toast.error(error.response.data.message);
+          }
+        } else if (error.request) {
+          toast.error(error.request);
+        } else {
+          // Something happened in setting up the request and triggered an Error
+          //console.log("Error", error.message);
+        }
+        //console.log(error);
+      }
+    };
+    getMyProfile();
+    getCourses();
+    getAllUsers();
+  }, []);
+
+  const getAllUsers = async () => {
+    try {
+      let response = await axios.get("http://localhost:9999/api/users");
+      setUsers(response.data);
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 400) {
+          //console.log(error.response.data);
+          toast.error(error.response.data.message);
+        }
+        if (error.response.status === 401) {
+          //console.log(error.response.data);
+          toast.error(error.errormessage);
+        }
+      } else if (error.request) {
+        toast.error(error.request);
+      } else {
+        // Something happened in setting up the request and triggered an Error
+        //console.log("Error", error.message);
+      }
+      //console.log(error);
+    }
+  };
+  //Get all courses
+  const getCourses = async () => {
+    try {
+      let response = await axios.get("http://localhost:9999/api/courses", {
+        headers: {
+          "x-access-token": token,
+        },
+      });
+      setAllCourses(response.data);
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 400) {
+          //console.log(error.response.data);
+          toast.error(error.response.data.message);
+        }
+        if (error.response.status === 401) {
+          //console.log(error.response.data);
+          toast.error(error.errormessage);
+        }
+      } else if (error.request) {
+        toast.error(error.request);
+      } else {
+        // Something happened in setting up the request and triggered an Error
+        console.log("Error", error.message);
+      }
+    }
+  };
+
+  //Add course
+  const addCourse = async () => {
+    let courseData = {
+      name: courseName,
+    };
+    try {
+      let response = await axios.post(
+        "http://localhost:9999/api/courses/add",
+        courseData,
+        {
+          headers: {
+            "x-access-token": token,
+          },
+        }
+      );
+      setCourseName();
+      addCourseModalClose();
+      getCourses();
+      toast.success("course addedd successfully");
+    } catch (error) {
+      setCourseName();
+      addCourseModalClose();
+      if (error.response) {
+        if (error.response.status === 400) {
+          toast.error(error.response.data.message);
+        }
+        if (error.response.status === 401) {
+          toast.error(error);
+        }
+      } else if (error.request) {
+        toast.error(error.request);
+      } else {
+        toast.error(error.errormessage);
+      }
+
+      toast.error(error);
+    }
+  };
+
+  //Update course
+  const updateCourse = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          let response = await axios.put(
+            "http://localhost:9999/api/courses/updatecourse",
+            {
+              name: updatedCourse.name,
+              courseid: updatedCourse.courseid,
+              isActive: updatedCourse.isActive,
+            },
+            {
+              headers: {
+                "x-access-token": token,
+              },
+            }
+          );
+          getCourses();
+          toast.success("course deleted successfully");
+        } catch (error) {
+          if (error.response) {
+            if (error.response.status === 400) {
+              toast.error(error.response.data.message);
+            }
+            if (error.response.status === 401) {
+              toast.error(error);
+            }
+          } else if (error.request) {
+            toast.error(error.request);
+          } else {
+            toast.error(error.errormessage);
+          }
+          toast.error(error);
+        }
+      }
+    });
+  };
 
   if (!token) {
     // history("/login");
@@ -34,11 +250,11 @@ function AdminDashboard() {
     <React.Fragment>
       <div className="container-fluid h-100">
         <h1 className="d-flex justify-content-center mt-5">
-          Welcome, {username}
+          Hello, {myProfileData?.user?.name ?? ""}
         </h1>
         <div className="row d-flex justify-content-center align-items-center enrollments-row">
           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-6 m-2 d-flex justify-content-center">
-            <Link to="/viewMyCourses">
+            <a onClick={addCourseModalOpen}>
               <div
                 className="card add-course"
                 style={{ width: "18rem", height: "15rem" }}
@@ -49,7 +265,7 @@ function AdminDashboard() {
                   </h5>
                 </div>
               </div>
-            </Link>
+            </a>
           </div>
           <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-6 m-2 d-flex justify-content-center">
             <Link to="/viewMyCourses">
@@ -80,6 +296,190 @@ function AdminDashboard() {
             </Link>
           </div>
         </div>
+        <h3 className="mt-5">All Courses</h3>
+        <div className="d-flex justify-content-center mt-3">
+          <Table
+            responsive
+            striped
+            bordered
+            hover
+            className="admin-courses-table"
+          >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Course Name</th>
+                <th>Course Id</th>
+                <th>Is Active?</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allCourses.map((course, index) => {
+                return (
+                  <tr key={course._id}>
+                    <td>{index}</td>
+                    <td>{course.name}</td>
+                    <td>{course.courseid}</td>
+                    <td>{course.isActive}</td>
+                    <td>
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        onClick={() => updateCourseModalOpen(course)}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
+        <h3 className="mt-5">All Users</h3>
+        <div className="d-flex justify-content-center mt-3">
+          <Table
+            responsive
+            striped
+            bordered
+            hover
+            className="admin-users-table"
+          >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Is Admin?</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((user, index) => {
+                return (
+                  <tr key={user._id}>
+                    <td>{index}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.isAdmin ? "true" : "false"}</td>
+                    <td>
+                      <FontAwesomeIcon icon={faTrash} />
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
+        <Modal
+          show={addCourseModalShow}
+          onHide={addCourseModalClose}
+          animation={false}
+          backdrop="static"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Add New Course</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <ListGroup>
+              <form>
+                <div className="form-group">
+                  <label htmlFor="courseName">Course Name</label>
+                  <input
+                    type="input"
+                    className="form-control"
+                    id="courseName"
+                    value={courseName}
+                    placeholder="Course Name"
+                    required
+                    onChange={(e) => {
+                      setCourseName(e.target.value);
+                    }}
+                  />
+                </div>
+              </form>
+            </ListGroup>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="warning"
+              className="text-white"
+              onClick={addCourse}
+            >
+              Submit
+            </Button>
+            <Button variant="secondary" onClick={addCourseModalClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal
+          show={updateCourseModalShow}
+          onHide={updateCourseModalClose}
+          animation={false}
+          backdrop="static"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Update Course</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <ListGroup>
+              <form>
+                <div className="form-group">
+                  <label htmlFor="name">Course Name</label>
+                  <input
+                    type="input"
+                    className="form-control"
+                    id="name"
+                    name="name"
+                    value={updatedCourse.name}
+                    placeholder="Course Name"
+                    required
+                    onChange={handleCourseUpdate}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="courseid">Course Id</label>
+                  <input
+                    type="input"
+                    className="form-control"
+                    id="courseid"
+                    name="courseid"
+                    value={updatedCourse.courseid}
+                    placeholder="Course Id"
+                    disabled
+                    required
+                    onChange={handleCourseUpdate}
+                  />
+                </div>
+                <div className="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="isActive"
+                    name="isActive"
+                    checked={updatedCourse.isActive}
+                    required
+                    onChange={handleCourseUpdate}
+                  />
+                  <label htmlFor="isActive" class="form-check-label">
+                    Is Course Active?
+                  </label>
+                </div>
+              </form>
+            </ListGroup>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="warning"
+              className="text-white"
+              onClick={updateCourse}
+            >
+              Submit
+            </Button>
+            <Button variant="secondary" onClick={updateCourseModalClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </React.Fragment>
   );

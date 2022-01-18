@@ -99,7 +99,6 @@ router.post(
                   id: user.id,
                   name: user.name,
                   email: user.email,
-                  isAdmin: user.isAdmin,
                 },
               });
             }
@@ -113,6 +112,20 @@ router.post(
     }
   }
 );
+
+router.get("/myProfile", authenticate, async (req, res) => {
+  let email = req.user.email;
+  let user = await User.findOne({
+    email,
+  });
+  if (user) {
+    return res.status(200).json({ message: "User authenticatede", user: user });
+  } else {
+    return res
+      .status(200)
+      .json({ message: `Cannot find user with email: ${email}` });
+  }
+});
 
 //update User
 // { new: true } should be passed as an option to get the updated product as response.

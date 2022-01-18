@@ -76,19 +76,17 @@ code {
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+.add-course {
+  background-image: linear-gradient(
+    45deg,
+    #ff9a9e 0%,
+    #fad0c4 99%,
+    #fad0c4 100%
+  );
+}
+
 .delete-course {
-  /* background-color: #3498db !important; */
-  background: #8e2de2; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #4a00e0,
-    #8e2de2
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #4a00e0,
-    #8e2de2
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%);
 }
 
 .enroll-course,
@@ -97,6 +95,10 @@ code {
   /* background-image: linear-gradient(-60deg, rgb(37, 153, 147) 0%, #3498db 100%); */
   /* background-image: linear-gradient(to right, #0acffe 0%, #495aff 100%); */
   background-image: linear-gradient(to top, #e14fad 0%, #f9d423 100%);
+}
+
+.delete-user {
+  background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
 }
 
 .view-my-courses,

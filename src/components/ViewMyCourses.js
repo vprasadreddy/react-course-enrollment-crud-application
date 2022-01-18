@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import {
   BrowserRouter as Router,
@@ -15,13 +16,11 @@ import { Table } from "react-bootstrap";
 
 function ViewMyCourses() {
   const [userData, setUserData] = useContext(UserContext);
+  const [myProfileData, setMyProfileData] = useState({});
+  const [isAdmin, setIsAdmin] = useState(null);
   let token = localStorage.getItem("token");
   const [courses, setCourses] = useState([]);
-  let username = "";
-  if (userData) {
-    username = userData.user.name;
-  }
-  useEffect(() => {
+  let username = useEffect(() => {
     const getCourses = async () => {
       let response = await axios.get(
         "http://localhost:9999/api/enrollments/viewMyEnrollments",
@@ -35,6 +34,61 @@ function ViewMyCourses() {
       console.log(response.data);
     };
     getCourses();
+  }, []);
+
+  useEffect(() => {
+    const getCourses = async () => {
+      let response = await axios.get("http://localhost:9999/api/courses");
+      setCourses(response.data);
+      console.log(response.data);
+    };
+    getCourses();
+  }, []);
+
+  useEffect(() => {
+    const getMyProfile = async () => {
+      try {
+        let response = await axios.get(
+          "http://localhost:9999/api/users/myProfile",
+          {
+            headers: {
+              "x-access-token": token,
+            },
+          }
+        );
+        setUserData(response.data.user);
+        setMyProfileData(response.data);
+        setIsAdmin(response.data.user.isAdmin);
+        //console.log(userData);
+      } catch (error) {
+        if (error.response) {
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          // console.log(error.response.data);
+          // console.log(error.response.status);
+          // console.log(error.response.headers);
+          if (error.response.status == 400) {
+            //console.log(error.response.data);
+            toast.error(error.response.data.message);
+          }
+        } else if (error.request) {
+          /*
+           * The request was made but no response was received, `error.request`
+           * is an instance of XMLHttpRequest in the browser and an instance
+           * of http.ClientRequest in Node.js
+           */
+          //console.log(error.request);
+          toast.error(error.request);
+        } else {
+          // Something happened in setting up the request and triggered an Error
+          //console.log("Error", error.message);
+        }
+        //console.log(error);
+      }
+    };
+    getMyProfile();
   }, []);
 
   if (!token) {
