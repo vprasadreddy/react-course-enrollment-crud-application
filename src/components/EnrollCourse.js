@@ -12,10 +12,12 @@ import {
   useParams,
   NavLink,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 import { UserContext } from "../App";
 
 function EnrollCourse() {
+  const history = useNavigate();
   const [userData, setUserData] = useContext(UserContext);
   const [myProfileData, setMyProfileData] = useState({});
   const [isAdmin, setIsAdmin] = useState(null);
@@ -44,9 +46,11 @@ function EnrollCourse() {
 
   useEffect(() => {
     const getCourses = async () => {
-      let response = await axios.get("http://localhost:9999/api/courses");
+      let response = await axios.get(
+        "http://localhost:9999/api/courses/activeCourses"
+      );
       setCourses(response.data);
-      console.log(response.data);
+      //console.log(response.data);
     };
     getCourses();
   }, []);
@@ -111,6 +115,10 @@ function EnrollCourse() {
         }
       );
       toast.success(response.data.message);
+      setTimeout(() => {
+        history("/viewMyCourses");
+        //return <Navigate replace to="/viewMyCourses" />;
+      }, 5000);
     } catch (error) {
       if (error.response) {
         /*
@@ -163,11 +171,10 @@ function EnrollCourse() {
                     id="courseid"
                     name="courseid"
                     {...register("courseid", { required: true })}
+                    defaultValue=""
                     onChange={handleInputChange}
                   >
-                    <option selected value="">
-                      Select a Course
-                    </option>
+                    <option value="">Select a Course</option>
                     {courses.map((course, index) => {
                       return (
                         <option key={course._id} value={course._id}>

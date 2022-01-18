@@ -99,26 +99,30 @@ function ViewMyCourses() {
     <React.Fragment>
       <h5 className="d-flex justify-content-center mt-5">My Courses</h5>
       <div className="d-flex justify-content-center">
-        <Table striped bordered hover className="courses-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Course Name</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {courses.map((course, index) => {
-              return (
-                <tr key={course._id}>
-                  <td>{index}</td>
-                  <td>{course.courseid.name}</td>
-                  <td>Delete</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
+        {courses.length > 0 ? (
+          <Table striped bordered hover className="courses-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Course Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {courses.map((course, index) => {
+                return (
+                  <tr key={course._id}>
+                    <td>{index}</td>
+                    <td>{course.courseid.name}</td>
+                    <td>Delete</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        ) : (
+          <h3>Sorry, no enrollments found.</h3>
+        )}
       </div>
       <span className="d-flex justify-content-center mt-2 font-italic">
         Interested in enrolling in a new course? Click&nbsp;

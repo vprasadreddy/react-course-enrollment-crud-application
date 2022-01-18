@@ -29,8 +29,8 @@ function AdminDashboard() {
   const [addCourseModalShow, setAddCourseModalShow] = useState(false);
   const [updatedCourse, setUpdatedCourse] = useState({
     name: "",
-    courseid: "",
     isActive: true,
+    _id: "",
   });
   const [updateCourseModalShow, setUpdateCourseModalShow] = useState(false);
   let token = localStorage.getItem("token");
@@ -47,9 +47,9 @@ function AdminDashboard() {
   };
 
   const updateCourseModalOpen = (course) => {
-    let { name, courseid, isActive } = course;
+    let { name, isActive, _id } = course;
     setUpdateCourseModalShow(true);
-    setUpdatedCourse({ ...updatedCourse, name, courseid, isActive });
+    setUpdatedCourse({ ...updatedCourse, name, isActive, _id });
   };
 
   const updateCourseModalClose = () => {
@@ -195,50 +195,39 @@ function AdminDashboard() {
   };
 
   //Update course
-  const updateCourse = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, update it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          let response = await axios.put(
-            "http://localhost:9999/api/courses/updatecourse",
-            {
-              name: updatedCourse.name,
-              courseid: updatedCourse.courseid,
-              isActive: updatedCourse.isActive,
-            },
-            {
-              headers: {
-                "x-access-token": token,
-              },
-            }
-          );
-          getCourses();
-          toast.success("course deleted successfully");
-        } catch (error) {
-          if (error.response) {
-            if (error.response.status === 400) {
-              toast.error(error.response.data.message);
-            }
-            if (error.response.status === 401) {
-              toast.error(error);
-            }
-          } else if (error.request) {
-            toast.error(error.request);
-          } else {
-            toast.error(error.errormessage);
-          }
+  const updateCourse = async () => {
+    try {
+      const headers = {
+        headers: {
+          "x-access-token": token,
+        },
+      };
+      let response = await axios.put(
+        "http://localhost:9999/api/courses/updatecourse",
+        updatedCourse,
+        headers
+      );
+      console.log(response.data);
+      getCourses();
+      updateCourseModalClose();
+      toast.success("course updated successfully");
+    } catch (error) {
+      updateCourseModalClose();
+      if (error.response) {
+        if (error.response.status === 400) {
+          toast.error(error.response.data.message);
+          //alert(error.response.data.message);
+        }
+        if (error.response.status === 401) {
           toast.error(error);
         }
+      } else if (error.request) {
+        toast.error(error.request);
+      } else {
+        toast.error(error.errormessage);
       }
-    });
+      toast.error(error);
+    }
   };
 
   if (!token) {
@@ -321,7 +310,7 @@ function AdminDashboard() {
                     <td>{index}</td>
                     <td>{course.name}</td>
                     <td>{course.courseid}</td>
-                    <td>{course.isActive}</td>
+                    <td>{course.isActive ? "true" : "false"}</td>
                     <td>
                       <FontAwesomeIcon
                         icon={faTrash}
@@ -436,31 +425,17 @@ function AdminDashboard() {
                     onChange={handleCourseUpdate}
                   />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="courseid">Course Id</label>
-                  <input
-                    type="input"
-                    className="form-control"
-                    id="courseid"
-                    name="courseid"
-                    value={updatedCourse.courseid}
-                    placeholder="Course Id"
-                    disabled
-                    required
-                    onChange={handleCourseUpdate}
-                  />
-                </div>
                 <div className="form-check">
                   <input
                     type="checkbox"
-                    class="form-check-input"
+                    className="form-check-input"
                     id="isActive"
                     name="isActive"
                     checked={updatedCourse.isActive}
                     required
                     onChange={handleCourseUpdate}
                   />
-                  <label htmlFor="isActive" class="form-check-label">
+                  <label htmlFor="isActive" className="form-check-label">
                     Is Course Active?
                   </label>
                 </div>

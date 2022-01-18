@@ -10,6 +10,12 @@ const authenticate = require("../middlewares/authenticate");
 
 //get all Courses
 router.get("/", async (req, res) => {
+  let courses = await Course.find();
+  res.send(courses);
+});
+
+//get active Courses
+router.get("/activeCourses", async (req, res) => {
   let courses = await Course.find({ isActive: true });
   res.send(courses);
 });
@@ -58,35 +64,49 @@ router.post(
 //update Course
 // { new: true } should be passed as an option to get the updated product as response.
 router.put(
-  "/update",
+  "/updatecourse",
   authenticate,
   [
+    check("_id").notEmpty().withMessage("_id is required"),
     check("name").notEmpty().withMessage("name is required"),
-    check("courseid").notEmpty().withMessage("email is required"),
+    check("isActive")
+      .notEmpty()
+      .withMessage("isActive boolean value is required"),
   ],
-  (req, res) => {
+  async (req, res) => {
     let isAdmin = req.user.isAdmin;
     if (isAdmin) {
-      let { name, courseid } = req.body;
-      let updatedCourse = {
-        name,
-        courseid,
-      };
-      Course.findOneAndUpdate(
-        courseid,
-        { $set: updatedCourse },
-        { new: true },
-        (err, document) => {
-          if (err) {
-            res.status(400).json({ err: err });
-          } else {
-            res.status(200).json({
-              message: "Course updated successfully",
-              course: document,
-            });
-          }
+      try {
+        let { name, courseid, isActive, _id } = req.body;
+        const filter = { _id };
+        let updatedCourse = {
+          name,
+          isActive,
+        };
+        const options = { new: true };
+        let isCoursePresent = await Course.findOne(filter);
+        if (isCoursePresent) {
+          let course = await Course.findOneAndUpdate(
+            filter,
+            updatedCourse,
+            options
+          );
+          return res.status(200).json({
+            message: "Course updated successfully",
+            course,
+          });
+        } else {
+          return res.status(400).json({
+            message: `Couldn't find Course with name: ${name}`,
+            name,
+            courseid,
+            isActive,
+            _id,
+          });
         }
-      );
+      } catch (error) {
+        return res.status(400).json({ message: error });
+      }
     } else {
       return res
         .status(401)
@@ -96,8 +116,8 @@ router.put(
 );
 
 //delete course
-router.put(
-  "/updatecourse",
+router.delete(
+  "/deletecourse",
   authenticate,
   [check("courseid").notEmpty().withMessage("courseid is required")],
   async (req, res) => {
@@ -109,7 +129,7 @@ router.put(
           courseid,
         });
         if (course) {
-          await Course.findOneAndUpdate(
+          await Course.findOneAndDelete(
             { courseid },
             { $set: { isActive: false } },
             { new: true },
