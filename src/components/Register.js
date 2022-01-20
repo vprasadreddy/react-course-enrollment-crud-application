@@ -66,7 +66,7 @@ function Register() {
     <div>
       <React.Fragment>
         <div className="container-fluid h-100">
-          <div className="row d-flex justify-content-center align-items-center h-100 mx-auto mt-3 login-box">
+          <div className="row d-flex justify-content-center align-items-center h-100 mx-auto mt-5 login-box">
             <h3 className="d-flex justify-content-center">Register</h3>
             <form onSubmit={handleSubmit(onSubmit, onError)} autoComplete="off">
               <div className="row mb-3">

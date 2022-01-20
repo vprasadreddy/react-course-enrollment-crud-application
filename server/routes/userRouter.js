@@ -153,7 +153,7 @@ router.put(
       .isEmail()
       .withMessage("email is not valid email"),
   ],
-  (req, res) => {
+  async (req, res) => {
     let updatedUser = {
       name: req.body.name,
       email: req.body.email,

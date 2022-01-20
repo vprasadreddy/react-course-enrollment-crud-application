@@ -196,37 +196,49 @@ function AdminDashboard() {
 
   //Update course
   const updateCourse = async () => {
-    try {
-      const headers = {
-        headers: {
-          "x-access-token": token,
-        },
-      };
-      let response = await axios.put(
-        "http://localhost:9999/api/courses/updatecourse",
-        updatedCourse,
-        headers
-      );
-      console.log(response.data);
-      getCourses();
-      updateCourseModalClose();
-      toast.success("course updated successfully");
-    } catch (error) {
-      updateCourseModalClose();
-      if (error.response) {
-        if (error.response.status === 400) {
-          toast.error(error.response.data.message);
-          //alert(error.response.data.message);
+    let confirmation = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+    console.log(confirmation);
+    if (confirmation.isConfirmed) {
+      try {
+        const headers = {
+          headers: {
+            "x-access-token": token,
+          },
+        };
+        let response = await axios.put(
+          "http://localhost:9999/api/courses/updatecourse",
+          updatedCourse,
+          headers
+        );
+        console.log(response.data);
+        getCourses();
+        updateCourseModalClose();
+        toast.success("course updated successfully");
+      } catch (error) {
+        updateCourseModalClose();
+        if (error.response) {
+          if (error.response.status === 400) {
+            toast.error(error.response.data.message);
+            //alert(error.response.data.message);
+          }
+          if (error.response.status === 401) {
+            toast.error(error);
+          }
+        } else if (error.request) {
+          toast.error(error.request);
+        } else {
+          toast.error(error.errormessage);
         }
-        if (error.response.status === 401) {
-          toast.error(error);
-        }
-      } else if (error.request) {
-        toast.error(error.request);
-      } else {
-        toast.error(error.errormessage);
+        toast.error(error);
       }
-      toast.error(error);
     }
   };
 
