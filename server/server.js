@@ -44,3 +44,8 @@ const port = process.env.LOCAL_PORT;
 app.listen(port || 3000, hostname, () => {
   console.log(`Server has started!!! at port: ${port} and host: ${hostname}`);
 });
+
+//deployment
+if (process.env.NODE_ENV == "production") {
+  app.use(express.static("/build"));
+}
