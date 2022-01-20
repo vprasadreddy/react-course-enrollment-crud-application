@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
+import blankprofile from "../assests/blankprofile.png";
 import {
   BrowserRouter as Router,
   Routes,
@@ -76,9 +77,21 @@ function Navbar() {
             )}
 
             {token && (
-              <a className="nav-link" onClick={clearSession}>
-                Logout{" "}
-              </a>
+              <>
+                <a className="nav-link" onClick={clearSession}>
+                  Logout{" "}
+                </a>
+                <a href="#">
+                  <img
+                    src={blankprofile}
+                    width="40"
+                    height="40"
+                    class="d-inline-block align-top"
+                    alt="profile-pic"
+                    style={{ borderRadius: "50%" }}
+                  />
+                </a>
+              </>
             )}
           </div>
         </div>

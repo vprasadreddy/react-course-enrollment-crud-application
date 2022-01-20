@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import blankprofile from "../assests/blankprofile.png";
 import { useForm } from "react-hook-form";
 import {
   BrowserRouter as Router,
@@ -22,7 +23,7 @@ function Register() {
     password: "",
   });
 
-  let { email, password } = registerFormData;
+  let { name, email, password } = registerFormData;
 
   const handleInputChange = (e) => {
     setRegisterFormData({
