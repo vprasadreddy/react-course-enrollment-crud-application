@@ -9,9 +9,13 @@ import {
   useRouteMatch,
   useParams,
   NavLink,
+  Navigate,
+  useNavigate,
 } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 function Register() {
+  const history = useNavigate();
   const [registerFormData, setRegisterFormData] = useState({
     name: "",
     email: "",
@@ -42,8 +46,18 @@ function Register() {
         "http://localhost:9999/api/users/register",
         registerFormData
       );
+      toast.success(response.data.message);
+      setRegisterFormData({
+        name: "",
+        email: "",
+        password: "",
+      });
+      setTimeout(() => {
+        history("/login");
+        //return <Navigate replace to="/viewMyCourses" />;
+      }, 2000);
     } catch (error) {
-      console.error(error);
+      toast.error(error.response.data.message);
     }
   };
 

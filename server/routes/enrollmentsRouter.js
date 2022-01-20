@@ -28,26 +28,30 @@ router.post("/enrollCourse", authenticate, async (req, res) => {
   let { courseid } = req.body;
   let courseObjectId = mongoose.Types.ObjectId(courseid);
   //console.log(courseid);
-  let isCourseAlreadyEnrolled = await Enrollment.find({ userid, courseid });
-  let course = await Course.findById({ _id: courseObjectId });
-  let courseName;
-  if (course) {
-    courseName = course.name;
-  }
-  if (isCourseAlreadyEnrolled.length > 0) {
-    res.status(400).json({
-      message: "Course already enrolled for the user",
-      course: { courseid, courseName, user, email },
-    });
-  } else {
-    let enrollment = new Enrollment({
-      userid,
-      courseid,
-    });
-    let enrolledCourse = await enrollment.save();
-    res
-      .status(200)
-      .json({ message: "Course enrolled successfully!!!", enrolledCourse });
+  try {
+    let isCourseAlreadyEnrolled = await Enrollment.find({ userid, courseid });
+    let course = await Course.findById({ _id: courseObjectId });
+    let courseName;
+    if (course) {
+      courseName = course.name;
+    }
+    if (isCourseAlreadyEnrolled.length > 0) {
+      res.status(400).json({
+        message: "Course already enrolled for the user",
+        course: { courseid, courseName, user, email },
+      });
+    } else {
+      let enrollment = new Enrollment({
+        userid,
+        courseid,
+      });
+      let enrolledCourse = await enrollment.save();
+      res
+        .status(200)
+        .json({ message: "Course enrolled successfully!!!", enrolledCourse });
+    }
+  } catch (error) {
+    res.status(400).json({ message: error });
   }
 });
 
@@ -59,19 +63,28 @@ router.delete("/deleteEnrollment", authenticate, async (req, res) => {
   //console.log(req.user);
   let { courseid } = req.body;
   let courseObjectId = mongoose.Types.ObjectId(courseid);
-  let enrolledCourse = await Enrollment.findOne({
-    userid,
-    courseid,
-  });
-  if (enrolledCourse) {
-    let deletedCourse = await Enrollment.findOneAndDelete({ userid, courseid });
-    res.status(200).json({
-      message: "Enrollment deleted successfully",
-      enrollment: deletedCourse,
+  try {
+    let enrolledCourse = await Enrollment.findOne({
+      userid,
+      courseid,
     });
-  } else {
+    if (enrolledCourse) {
+      let deletedCourse = await Enrollment.findOneAndDelete({
+        userid,
+        courseid,
+      });
+      res.status(200).json({
+        message: "Enrollment deleted successfully",
+        enrollment: deletedCourse,
+      });
+    } else {
+      res.status(400).json({
+        message: `Couldn't find the enrollment for the user: ${username} with course id: ${courseid} to delete.`,
+      });
+    }
+  } catch (error) {
     res.status(400).json({
-      message: `Couldn't find the enrollment for the user: ${username} with course id: ${courseid} to delete.`,
+      message: error,
     });
   }
 });

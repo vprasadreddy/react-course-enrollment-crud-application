@@ -124,33 +124,33 @@ router.delete(
     const { courseid } = req.body;
     let isAdmin = req.user.isAdmin;
     if (isAdmin) {
-      if (courseid) {
-        let course = await Course.findOne({
-          courseid,
-        });
-        if (course) {
-          await Course.findOneAndDelete(
-            { courseid },
-            { $set: { isActive: false } },
-            { new: true },
-            (err, document) => {
-              if (err) {
-                res.status(400).json({ err: err });
-              } else {
-                res.status(200).json({
-                  message: "Course deleted successfully",
-                  course: document,
-                });
-              }
-            }
-          );
-        } else {
-          return res.status(400).json({
-            message: `Course not found with name: ${name}`,
+      try {
+        if (courseid) {
+          let course = await Course.findOne({
+            courseid,
           });
+          if (course) {
+            let deletedCourse = await Course.findOneAndDelete(
+              { courseid },
+              { $set: { isActive: false } },
+              { new: true }
+            );
+            return res.status(200).json({
+              message: "Course deleted successfully",
+              course: deletedCourse,
+            });
+          } else {
+            return res.status(400).json({
+              message: `Couldn't find Course with name: ${courseid}`,
+            });
+          }
+        } else {
+          return res
+            .status(400)
+            .json({ message: `Course name cannot be empty` });
         }
-      } else {
-        return res.status(400).json({ message: `Course name cannot be empty` });
+      } catch (error) {
+        return res.status(400).json({ message: error });
       }
     } else {
       return res

@@ -30,24 +30,28 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     } else {
-      let user = await User.findOne({
-        email,
-      });
-      if (user) {
-        return res.status(400).json({ message: "User already exists" });
+      try {
+        let user = await User.findOne({
+          email,
+        });
+        if (user) {
+          return res.status(400).json({ message: "User already exists" });
+        }
+        //encrypt the password
+        let salt = await bcrypt.genSalt(10);
+        let encryptedPassword = await bcrypt.hash(password, salt);
+        let newUser = new User({
+          name,
+          email,
+          password: encryptedPassword,
+        });
+        let savedUser = await newUser.save();
+        return res
+          .status(200)
+          .json({ message: "Registration successfull!!!", user: savedUser });
+      } catch (error) {
+        return res.status(400).json({ message: error });
       }
-      //encrypt the password
-      let salt = await bcrypt.genSalt(10);
-      let encryptedPassword = await bcrypt.hash(password, salt);
-      let newUser = new User({
-        name,
-        email,
-        password: encryptedPassword,
-      });
-      let savedUser = await newUser.save();
-      return res
-        .status(200)
-        .json({ message: "Registration successfull!!!", user: savedUser });
     }
   }
 );
@@ -68,46 +72,50 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     } else {
-      let user = await User.findOne({
-        email,
-      });
-      if (user) {
-        //console.log(user.id);
-        //compare password
-        let isPasswordMatch = await bcrypt.compare(password, user.password);
-        if (isPasswordMatch) {
-          //create JWT token
-          let payload = {
-            user: {
-              id: user.id,
-              name: user.name,
-              email: user.email,
-              isAdmin: user.isAdmin,
-            },
-          };
+      try {
+        let user = await User.findOne({
+          email,
+        });
+        if (user) {
+          //console.log(user.id);
+          //compare password
+          let isPasswordMatch = await bcrypt.compare(password, user.password);
+          if (isPasswordMatch) {
+            //create JWT token
+            let payload = {
+              user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin,
+              },
+            };
 
-          jwt.sign(
-            payload,
-            process.env.JWT_SECRET_KEY,
-            { expiresIn: 3600000 },
-            (error, token) => {
-              if (error) throw error;
-              res.status(200).json({
-                message: "Login success",
-                token,
-                user: {
-                  id: user.id,
-                  name: user.name,
-                  email: user.email,
-                },
-              });
-            }
-          );
+            jwt.sign(
+              payload,
+              process.env.JWT_SECRET_KEY,
+              { expiresIn: 3600000 },
+              (error, token) => {
+                if (error) throw error;
+                res.status(200).json({
+                  message: "Login success",
+                  token,
+                  user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                  },
+                });
+              }
+            );
+          } else {
+            return res.status(400).json({ message: "Invalid credentials" });
+          }
         } else {
-          return res.status(400).json({ message: "Invalid credentials" });
+          return res.status(400).json({ message: "User not found" });
         }
-      } else {
-        return res.status(400).json({ message: "User not found" });
+      } catch (error) {
+        return res.status(400).json({ message: error });
       }
     }
   }
@@ -115,15 +123,21 @@ router.post(
 
 router.get("/myProfile", authenticate, async (req, res) => {
   let email = req.user.email;
-  let user = await User.findOne({
-    email,
-  });
-  if (user) {
-    return res.status(200).json({ message: "User authenticatede", user: user });
-  } else {
-    return res
-      .status(200)
-      .json({ message: `Cannot find user with email: ${email}` });
+  try {
+    let user = await User.findOne({
+      email,
+    });
+    if (user) {
+      return res
+        .status(200)
+        .json({ message: "User authenticatede", user: user });
+    } else {
+      return res
+        .status(200)
+        .json({ message: `Cannot find user with email: ${email}` });
+    }
+  } catch (error) {
+    return res.status(400).json({ message: error });
   }
 });
 
@@ -144,20 +158,18 @@ router.put(
       name: req.body.name,
       email: req.body.email,
     };
-    User.findOneAndUpdate(
-      email,
-      { $set: updatedUser },
-      { new: true },
-      (err, document) => {
-        if (err) {
-          res.status(400).json({ err: err });
-        } else {
-          res
-            .status(200)
-            .json({ message: "User updated successfully", User: document });
-        }
-      }
-    );
+    try {
+      let returnedUser = await User.findOneAndUpdate(
+        email,
+        { $set: updatedUser },
+        { new: true }
+      );
+      return res
+        .status(200)
+        .json({ message: "User updated successfully", User: returnedUser });
+    } catch (error) {
+      return res.status(400).json({ message: error });
+    }
   }
 );
 
@@ -177,27 +189,31 @@ router.delete(
     console.log(isAdmin);
     if (isAdmin) {
       if (email) {
-        let user = await User.findOne({
-          email,
-        });
-        if (user) {
-          await User.findOneAndDelete({ email }, (err, document) => {
-            if (err) {
-              res.status(400).json({ err: err });
-            } else {
-              res.status(200).json({
-                message: "User deleted successfully",
-                user: document,
-              });
-            }
+        try {
+          let user = await User.findOne({
+            email,
           });
-        } else {
-          return res.status(400).json({
-            message: `User not found with email: ${email}`,
-          });
+          if (user) {
+            await User.findOneAndDelete({ email }, (err, document) => {
+              if (err) {
+                res.status(400).json({ err: err });
+              } else {
+                res.status(200).json({
+                  message: "User deleted successfully",
+                  user: document,
+                });
+              }
+            });
+          } else {
+            return res.status(400).json({
+              message: `User not found with email: ${email}`,
+            });
+          }
+        } catch (error) {
+          return res.status(400).json({ message: error });
         }
       } else {
-        return res.status(400).json({ message: `User email cannot be empty` });
+        return res.status(400).json({ message: `Email cannot be empty` });
       }
     } else {
       return res

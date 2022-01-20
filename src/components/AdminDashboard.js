@@ -15,7 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { UserContext } from "../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
 function AdminDashboard() {
@@ -256,7 +256,7 @@ function AdminDashboard() {
               </div>
             </a>
           </div>
-          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-6 m-2 d-flex justify-content-center">
+          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-6 m-2 d-flex justify-content-center">
             <Link to="/viewMyCourses">
               <div
                 className="card delete-course"
@@ -269,8 +269,8 @@ function AdminDashboard() {
                 </div>
               </div>
             </Link>
-          </div>
-          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-6 m-2 d-flex justify-content-center">
+          </div> */}
+          {/* <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-6 m-2 d-flex justify-content-center">
             <Link to="/enrollCourse">
               <div
                 className="card delete-user"
@@ -283,7 +283,7 @@ function AdminDashboard() {
                 </div>
               </div>
             </Link>
-          </div>
+          </div> */}
         </div>
         <h3 className="mt-5">All Courses</h3>
         <div className="d-flex justify-content-center mt-3">
@@ -294,11 +294,10 @@ function AdminDashboard() {
             hover
             className="admin-courses-table"
           >
-            <thead>
+            <thead className="view-courses-table ">
               <tr>
                 <th>#</th>
                 <th>Course Name</th>
-                <th>Course Id</th>
                 <th>Is Active?</th>
                 <th>Actions</th>
               </tr>
@@ -307,15 +306,18 @@ function AdminDashboard() {
               {allCourses.map((course, index) => {
                 return (
                   <tr key={course._id}>
-                    <td>{index}</td>
+                    <td>{index + 1}</td>
                     <td>{course.name}</td>
-                    <td>{course.courseid}</td>
                     <td>{course.isActive ? "true" : "false"}</td>
                     <td>
-                      <FontAwesomeIcon
-                        icon={faTrash}
-                        onClick={() => updateCourseModalOpen(course)}
-                      />
+                      <a>
+                        <FontAwesomeIcon
+                          icon={faPencilAlt}
+                          onClick={() => updateCourseModalOpen(course)}
+                          className="admin-edit-course"
+                          title="Edit Course"
+                        />
+                      </a>
                     </td>
                   </tr>
                 );
@@ -332,7 +334,7 @@ function AdminDashboard() {
             hover
             className="admin-users-table"
           >
-            <thead>
+            <thead className="view-users-table">
               <tr>
                 <th>#</th>
                 <th>Name</th>
@@ -345,12 +347,17 @@ function AdminDashboard() {
               {users.map((user, index) => {
                 return (
                   <tr key={user._id}>
-                    <td>{index}</td>
+                    <td>{index + 1}</td>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{user.isAdmin ? "true" : "false"}</td>
                     <td>
-                      <FontAwesomeIcon icon={faTrash} />
+                      <a>
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          className="admin-delete-user"
+                        />
+                      </a>
                     </td>
                   </tr>
                 );

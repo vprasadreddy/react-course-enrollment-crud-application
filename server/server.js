@@ -41,6 +41,6 @@ app.get("/", (req, res) => {
 const hostname = process.env.LOCAL_HOSTNAME;
 const port = process.env.LOCAL_PORT;
 
-app.listen(port, hostname, () => {
+app.listen(port || 3000, hostname, () => {
   console.log(`Server has started!!! at port: ${port} and host: ${hostname}`);
 });
