@@ -30,14 +30,14 @@ function App() {
         <Router>
           <Navbar />
           <Routes>
-            <Route exact path="/" element={<Login />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/home" element={<Home />} />
-            <Route exact path="/register" element={<Register />} />
-            <Route exact path="/viewMyCourses" element={<ViewMyCourses />} />
-            <Route exact path="/enrollCourse" element={<EnrollCourse />} />
-            <Route exact path="/adminDashboard" element={<AdminDashboard />} />
-            <Route exact path="/logout" element={<Logout />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/viewMyCourses" element={<ViewMyCourses />} />
+            <Route path="/enrollCourse" element={<EnrollCourse />} />
+            <Route path="/adminDashboard" element={<AdminDashboard />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </Router>

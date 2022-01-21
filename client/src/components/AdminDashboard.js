@@ -65,8 +65,7 @@ function AdminDashboard() {
     } else {
       setUpdatedCourse({ ...updatedCourse, [e.target.name]: e.target.value });
     }
-
-    console.log(updatedCourse);
+    //console.log(updatedCourse);
   };
 
   useEffect(() => {
@@ -196,9 +195,9 @@ function AdminDashboard() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Yes, make changes to the couse!",
     });
-    console.log(confirmation);
+    //console.log(confirmation);
     if (confirmation.isConfirmed) {
       try {
         const headers = {
