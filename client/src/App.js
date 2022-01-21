@@ -19,7 +19,9 @@ import AdminDashboard from "./components/AdminDashboard";
 import Logout from "./components/Logout";
 import PageNotFound from "./components/PageNotFound";
 import { toast, ToastContainer } from "react-toastify";
+import axios from "axios";
 
+axios.defaults.baseURL = "http://localhost:9999";
 export const UserContext = createContext();
 
 function App() {

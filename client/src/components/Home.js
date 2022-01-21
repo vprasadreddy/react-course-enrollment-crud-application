@@ -29,14 +29,11 @@ function Home() {
   useEffect(() => {
     const getMyProfile = async () => {
       try {
-        let response = await axios.get(
-          "https://react-course-enrollment.herokuapp.com/api/users/myProfile",
-          {
-            headers: {
-              "x-access-token": token,
-            },
-          }
-        );
+        let response = await axios.get("/api/users/myProfile", {
+          headers: {
+            "x-access-token": token,
+          },
+        });
         setMyProfileData(response.data);
         setUserData(response.data.user);
         setIsAdmin(response.data.user.isAdmin);

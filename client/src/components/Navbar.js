@@ -86,7 +86,7 @@ function Navbar() {
                     src={blankprofile}
                     width="40"
                     height="40"
-                    class="d-inline-block align-top"
+                    className="d-inline-block align-top"
                     alt="profile-pic"
                     style={{ borderRadius: "50%" }}
                   />

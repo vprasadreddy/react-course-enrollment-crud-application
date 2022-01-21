@@ -163,15 +163,11 @@ function AdminDashboard() {
       name: courseName,
     };
     try {
-      let response = await axios.post(
-        "https://react-course-enrollment.herokuapp.com/api/courses/add",
-        courseData,
-        {
-          headers: {
-            "x-access-token": token,
-          },
-        }
-      );
+      let response = await axios.post("/api/courses/add", courseData, {
+        headers: {
+          "x-access-token": token,
+        },
+      });
       setCourseName();
       addCourseModalClose();
       getCourses();
@@ -216,7 +212,7 @@ function AdminDashboard() {
           },
         };
         let response = await axios.put(
-          "https://react-course-enrollment.herokuapp.com/api/courses/updatecourse",
+          "/api/courses/updatecourse",
           updatedCourse,
           headers
         );

@@ -42,10 +42,7 @@ function Login() {
     //console.log(data, e);
     e.preventDefault();
     try {
-      let response = await axios.post(
-        "https://react-course-enrollment.herokuapp.com/api/users/login",
-        loginFormData
-      );
+      let response = await axios.post("/api/users/login", loginFormData);
       setUserData(response.data);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
@@ -89,7 +86,7 @@ function Login() {
       <div className="container-fluid h-100">
         <div className="row d-flex justify-content-center align-items-center h-100 mx-auto mt-5 login-box">
           <h3 className="d-flex justify-content-center">Login</h3>
-          <form onSubmit={handleSubmit(onSubmit, onError)}>
+          <form onSubmit={handleSubmit(onSubmit, onError)} autoComplete="off">
             <div className="row mb-3">
               <label htmlFor="email" className="col-sm-12 col-form-label">
                 Email
