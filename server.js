@@ -39,11 +39,11 @@ app.get("/", (req, res) => {
   res.send("Server side code get request!!!");
 });
 
-const hostname = process.env.LOCAL_HOSTNAME;
+// const hostname = process.env.LOCAL_HOSTNAME;
 const port = process.env.LOCAL_PORT;
 
-app.listen(port || 3000, hostname, () => {
-  console.log(`Server has started!!! at port: ${port} and host: ${hostname}`);
+app.listen(port || 3000, () => {
+  console.log(`Server has started!!! at port: ${port}`);
 });
 
 //deployment

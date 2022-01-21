@@ -72,14 +72,11 @@ function AdminDashboard() {
   useEffect(() => {
     const getMyProfile = async () => {
       try {
-        let response = await axios.get(
-          "https://react-course-enrollment.herokuapp.com/api/users/myProfile",
-          {
-            headers: {
-              "x-access-token": token,
-            },
-          }
-        );
+        let response = await axios.get("/api/users/myProfile", {
+          headers: {
+            "x-access-token": token,
+          },
+        });
         setUserData(response.data.user);
         setMyProfileData(response.data);
         setIsAdmin(response.data.user.isAdmin);
