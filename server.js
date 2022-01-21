@@ -40,7 +40,7 @@ app.get("/", (req, res) => {
 });
 
 // const hostname = process.env.LOCAL_HOSTNAME;
-const port = process.env.LOCAL_PORT;
+const port = process.env.PORT || 9999;
 
 app.listen(port || 3000, () => {
   console.log(`Server has started!!! at port: ${port}`);
@@ -48,7 +48,7 @@ app.listen(port || 3000, () => {
 
 //deployment
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "client", "build")));
+  app.use(express.static(path.join("client/build")));
   app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
   });
