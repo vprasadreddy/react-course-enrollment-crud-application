@@ -103,9 +103,7 @@ function AdminDashboard() {
 
   const getAllUsers = async () => {
     try {
-      let response = await axios.get(
-        "https://react-course-enrollment.herokuapp.com/api/users"
-      );
+      let response = await axios.get("/api/users");
       setUsers(response.data);
     } catch (error) {
       if (error.response) {
@@ -129,14 +127,11 @@ function AdminDashboard() {
   //Get all courses
   const getCourses = async () => {
     try {
-      let response = await axios.get(
-        "https://react-course-enrollment.herokuapp.com/api/courses",
-        {
-          headers: {
-            "x-access-token": token,
-          },
-        }
-      );
+      let response = await axios.get("/api/courses", {
+        headers: {
+          "x-access-token": token,
+        },
+      });
       setAllCourses(response.data);
     } catch (error) {
       if (error.response) {
