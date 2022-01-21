@@ -35,10 +35,6 @@ app.use("/api/users", userRouter);
 app.use("/api/courses", coursesRouter);
 app.use("/api/enrollments", enrollmentsRouter);
 
-app.get("/", (req, res) => {
-  res.send("Server side code get request!!!");
-});
-
 // const hostname = process.env.LOCAL_HOSTNAME;
 const port = process.env.PORT || 9999;
 
@@ -49,7 +45,7 @@ app.listen(port || 3000, () => {
 //deployment
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client", "build")));
-  app.get("*", (req, res) => {
+  app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
   });
 }
