@@ -30,7 +30,7 @@ function Home() {
     const getMyProfile = async () => {
       try {
         let response = await axios.get(
-          "http://localhost:9999/api/users/myProfile",
+          "https://react-course-enrollment.herokuapp.com/api/users/myProfile",
           {
             headers: {
               "x-access-token": token,

@@ -47,7 +47,7 @@ function EnrollCourse() {
   useEffect(() => {
     const getCourses = async () => {
       let response = await axios.get(
-        "http://localhost:9999/api/courses/activeCourses"
+        "https://react-course-enrollment.herokuapp.com/api/courses/activeCourses"
       );
       setCourses(response.data);
       //console.log(response.data);
@@ -59,7 +59,7 @@ function EnrollCourse() {
     const getMyProfile = async () => {
       try {
         let response = await axios.get(
-          "http://localhost:9999/api/users/myProfile",
+          "https://react-course-enrollment.herokuapp.com/api/users/myProfile",
           {
             headers: {
               "x-access-token": token,
@@ -106,7 +106,7 @@ function EnrollCourse() {
     e.preventDefault();
     try {
       let response = await axios.post(
-        "http://localhost:9999/api/enrollments/enrollCourse",
+        "https://react-course-enrollment.herokuapp.com/api/enrollments/enrollCourse",
         formData,
         {
           headers: {

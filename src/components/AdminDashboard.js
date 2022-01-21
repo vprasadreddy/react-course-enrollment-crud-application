@@ -73,7 +73,7 @@ function AdminDashboard() {
     const getMyProfile = async () => {
       try {
         let response = await axios.get(
-          "http://localhost:9999/api/users/myProfile",
+          "https://react-course-enrollment.herokuapp.com/api/users/myProfile",
           {
             headers: {
               "x-access-token": token,
@@ -106,7 +106,9 @@ function AdminDashboard() {
 
   const getAllUsers = async () => {
     try {
-      let response = await axios.get("http://localhost:9999/api/users");
+      let response = await axios.get(
+        "https://react-course-enrollment.herokuapp.com/api/users"
+      );
       setUsers(response.data);
     } catch (error) {
       if (error.response) {
@@ -130,11 +132,14 @@ function AdminDashboard() {
   //Get all courses
   const getCourses = async () => {
     try {
-      let response = await axios.get("http://localhost:9999/api/courses", {
-        headers: {
-          "x-access-token": token,
-        },
-      });
+      let response = await axios.get(
+        "https://react-course-enrollment.herokuapp.com/api/courses",
+        {
+          headers: {
+            "x-access-token": token,
+          },
+        }
+      );
       setAllCourses(response.data);
     } catch (error) {
       if (error.response) {
@@ -162,7 +167,7 @@ function AdminDashboard() {
     };
     try {
       let response = await axios.post(
-        "http://localhost:9999/api/courses/add",
+        "https://react-course-enrollment.herokuapp.com/api/courses/add",
         courseData,
         {
           headers: {
@@ -214,7 +219,7 @@ function AdminDashboard() {
           },
         };
         let response = await axios.put(
-          "http://localhost:9999/api/courses/updatecourse",
+          "https://react-course-enrollment.herokuapp.com/api/courses/updatecourse",
           updatedCourse,
           headers
         );

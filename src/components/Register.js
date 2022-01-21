@@ -44,7 +44,7 @@ function Register() {
     e.preventDefault();
     try {
       let response = await axios.post(
-        "http://localhost:9999/api/users/register",
+        "https://react-course-enrollment.herokuapp.com/api/users/register",
         registerFormData
       );
       toast.success(response.data.message);
