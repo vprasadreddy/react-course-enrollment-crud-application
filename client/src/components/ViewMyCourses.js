@@ -20,25 +20,13 @@ function ViewMyCourses() {
   const [isAdmin, setIsAdmin] = useState(null);
   let token = localStorage.getItem("token");
   const [courses, setCourses] = useState([]);
-  let username = useEffect(() => {
-    const getCourses = async () => {
-      let response = await axios.get(
-        "http://localhost:9999/api/enrollments/viewMyEnrollments",
-        {
-          headers: {
-            "x-access-token": token,
-          },
-        }
-      );
-      setCourses(response.data);
-      console.log(response.data);
-    };
-    getCourses();
-  }, []);
-
   useEffect(() => {
     const getCourses = async () => {
-      let response = await axios.get("http://localhost:9999/api/courses");
+      let response = await axios.get("/api/enrollments/viewMyEnrollments", {
+        headers: {
+          "x-access-token": token,
+        },
+      });
       setCourses(response.data);
       console.log(response.data);
     };
@@ -48,14 +36,11 @@ function ViewMyCourses() {
   useEffect(() => {
     const getMyProfile = async () => {
       try {
-        let response = await axios.get(
-          "http://localhost:9999/api/users/myProfile",
-          {
-            headers: {
-              "x-access-token": token,
-            },
-          }
-        );
+        let response = await axios.get("/api/users/myProfile", {
+          headers: {
+            "x-access-token": token,
+          },
+        });
         setUserData(response.data.user);
         setMyProfileData(response.data);
         setIsAdmin(response.data.user.isAdmin);

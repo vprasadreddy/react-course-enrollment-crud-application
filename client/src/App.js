@@ -21,7 +21,6 @@ import PageNotFound from "./components/PageNotFound";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 
-axios.defaults.baseURL = "https://react-course-enrollment-crud.herokuapp.com";
 export const UserContext = createContext();
 
 function App() {
