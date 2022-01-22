@@ -102,12 +102,14 @@ function Navbar() {
           </div>
         </div>
       </nav>
-      <FontAwesomeIcon
-        className="d-flex justify-content-center m-3"
-        icon={faArrowCircleLeft}
-        onClick={() => navigate(-1)}
-        className="back-icon"
-      />
+      {!token && (
+        <FontAwesomeIcon
+          className="d-flex justify-content-center m-3"
+          icon={faArrowCircleLeft}
+          onClick={() => navigate(-1)}
+          className="back-icon"
+        />
+      )}
     </React.Fragment>
   );
 }
