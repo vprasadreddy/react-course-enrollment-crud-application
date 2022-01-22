@@ -102,7 +102,7 @@ function Navbar() {
           </div>
         </div>
       </nav>
-      {!token && (
+      {token && (
         <FontAwesomeIcon
           className="d-flex justify-content-center m-3"
           icon={faArrowCircleLeft}
