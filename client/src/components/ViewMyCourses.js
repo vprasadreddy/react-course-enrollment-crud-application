@@ -44,7 +44,9 @@ function ViewMyCourses() {
   };
 
   const deleteEnrollment = async (course) => {
-    let { _id } = course.courseid._id;
+    console.log(course);
+    let { _id } = course.courseid;
+    console.log(_id);
     let confirmation = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",

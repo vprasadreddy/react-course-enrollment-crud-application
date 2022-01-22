@@ -347,7 +347,7 @@ function AdminDashboard() {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Is Admin?</th>
-                <th>Actions</th>
+                {/* <th>Actions</th> */}
               </tr>
             </thead>
             <tbody>
@@ -358,14 +358,14 @@ function AdminDashboard() {
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{user.isAdmin ? "true" : "false"}</td>
-                    <td>
+                    {/* <td>
                       <a>
                         <FontAwesomeIcon
                           icon={faTrash}
                           className="admin-delete-user"
                         />
                       </a>
-                    </td>
+                    </td> */}
                   </tr>
                 );
               })}
