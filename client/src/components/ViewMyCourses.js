@@ -45,9 +45,6 @@ function ViewMyCourses() {
 
   const deleteEnrollment = async (course) => {
     let { _id } = course;
-    let enrollmentToDelete = {
-      courseid: _id,
-    };
     let confirmation = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -65,21 +62,21 @@ function ViewMyCourses() {
             "x-access-token": token,
           },
         };
-        let response = await axios.delete(
-          "/api/enrollments/deleteEnrollment",
-          enrollmentToDelete,
-          headers
-        );
+        let response = await axios.delete("/api/enrollments/deleteEnrollment", {
+          headers: {
+            "x-access-token": token,
+          },
+          data: {
+            courseid: _id,
+          },
+        });
         getMyEnrollments();
         toast.success("Course deleted successfully");
       } catch (error) {
         if (error.response) {
-          if (error.response.status === 400) {
+          if (error.response.status === 400 || error.response.status === 401) {
             toast.error(error.response.data.message);
             //alert(error.response.data.message);
-          }
-          if (error.response.status === 401) {
-            toast.error(error);
           }
         } else if (error.request) {
           toast.error(error.request);
@@ -111,7 +108,7 @@ function ViewMyCourses() {
         // console.log(error.response.data);
         // console.log(error.response.status);
         // console.log(error.response.headers);
-        if (error.response.status == 400) {
+        if (error.response.status === 400 || error.response.status === 401) {
           //console.log(error.response.data);
           toast.error(error.response.data.message);
         }
