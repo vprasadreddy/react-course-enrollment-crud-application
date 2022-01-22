@@ -1,4 +1,5 @@
 import axios from "axios";
+import $ from "jquery";
 import React, { useState, useEffect, useContext } from "react";
 import blankprofile from "../assests/blankprofile.png";
 import {
@@ -13,9 +14,23 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTrash,
+  faPencilAlt,
+  faArrowCircleLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../App";
 
 function Navbar() {
+  const navigate = useNavigate();
+  $(function () {
+    /* to close Navbar on NavItem click */
+    $(".navbar-nav>a").on("click", function () {
+      $(".navbar-collapse").collapse("hide");
+    });
+  });
+
   const history = useNavigate();
   const [userData, setUserData] = useContext(UserContext);
   // const [isAdmin, setIsAdmin] = useState(null);
@@ -87,6 +102,12 @@ function Navbar() {
           </div>
         </div>
       </nav>
+      <FontAwesomeIcon
+        className="d-flex justify-content-center m-3"
+        icon={faArrowCircleLeft}
+        onClick={() => navigate(-1)}
+        className="back-icon"
+      />
     </React.Fragment>
   );
 }

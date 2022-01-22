@@ -9,6 +9,7 @@ import {
   useParams,
 } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -53,6 +54,7 @@ function App() {
         draggable
         pauseOnHover
       />
+      <ScrollToTop />
     </div>
   );
 }

@@ -80,7 +80,7 @@ function Home() {
           Welcome, {username}
         </h1>
         <div className="row d-flex justify-content-center align-items-center enrollments-row">
-          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-6 m-2 d-flex justify-content-center">
+          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-6 m-3 d-flex justify-content-center">
             <Link to="/viewMyCourses">
               <div
                 className="card view-my-courses"
@@ -94,7 +94,7 @@ function Home() {
               </div>
             </Link>
           </div>
-          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-6 m-2 d-flex justify-content-center">
+          <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-xs-6 m-3 d-flex justify-content-center">
             <Link to="/enrollCourse">
               <div
                 className="card enroll-course"

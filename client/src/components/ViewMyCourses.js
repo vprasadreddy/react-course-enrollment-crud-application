@@ -82,37 +82,41 @@ function ViewMyCourses() {
   }
   return (
     <React.Fragment>
-      <h5 className="d-flex justify-content-center mt-5">My Courses</h5>
-      <div className="d-flex justify-content-center">
-        {courses.length > 0 ? (
-          <Table striped bordered hover className="courses-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Course Name</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {courses.map((course, index) => {
-                return (
-                  <tr key={course._id}>
-                    <td>{index}</td>
-                    <td>{course.courseid.name}</td>
-                    <td>Delete</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
-        ) : (
-          <h3>Sorry, no enrollments found.</h3>
-        )}
+      <div className="container-fluid h-100">
+        <h5 className="d-flex justify-content-center mt-5">My Courses</h5>
+        <div className="d-flex justify-content-center">
+          {courses.length > 0 ? (
+            <Table striped bordered hover className="courses-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Course Name</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {courses.map((course, index) => {
+                  return (
+                    <tr key={course._id}>
+                      <td>{index}</td>
+                      <td>{course.courseid.name}</td>
+                      <td>Delete</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          ) : (
+            <h3>Sorry, no enrollments found.</h3>
+          )}
+        </div>
+        <div className="d-flex justify-content-center mt-2 font-italic">
+          <p>
+            Interested in enrolling in a new course? Click
+            <Link to="/enrollCourse"> here </Link> to enroll.
+          </p>
+        </div>
       </div>
-      <span className="d-flex justify-content-center mt-2 font-italic">
-        Interested in enrolling in a new course? Click&nbsp;
-        <Link to="/enrollCourse">here</Link>&nbsp;to enroll.
-      </span>
     </React.Fragment>
   );
 }

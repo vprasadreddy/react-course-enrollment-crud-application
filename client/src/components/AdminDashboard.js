@@ -15,7 +15,11 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { UserContext } from "../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrash,
+  faPencilAlt,
+  faArrowCircleLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 
 function AdminDashboard() {
@@ -242,7 +246,7 @@ function AdminDashboard() {
   return (
     <React.Fragment>
       <div className="container-fluid h-100">
-        <h1 className="d-flex justify-content-center mt-5">
+        <h1 className="d-flex justify-content-center mt-3">
           Hello, {myProfileData?.user?.name ?? ""}
         </h1>
         <div className="row d-flex justify-content-center align-items-center enrollments-row">

@@ -9,9 +9,9 @@ a {
   cursor: pointer;
 }
 
-html {
+/* html {
   scroll-behavior: smooth;
-}
+} */
 
 body {
   font-family: "Roboto", sans-serif;
@@ -127,4 +127,32 @@ code {
 
 .admin-delete-user:hover {
   color: #e74c3c;
+}
+
+@media only screen and (max-height: 7000px) {
+  .container-fluid {
+    padding-bottom: 50px !important;
+  }
+}
+
+.back-icon {
+  width: 3.125rem !important;
+  height: 3.125rem !important;
+  cursor: pointer !important;
+  margin: 1rem;
+  color: #f1c40f !important;
+}
+
+.scroll-to-top-icon {
+  width: 3.125rem !important;
+  height: 3.125rem !important;
+  cursor: pointer !important;
+  position: fixed !important;
+  bottom: 10px !important;
+  right: 21px !important;
+  margin: 1rem;
+  color: #f1c40f !important;
+  z-index: 9999 !important;
+  background-color: white;
+  border-radius: 50%;
 }
