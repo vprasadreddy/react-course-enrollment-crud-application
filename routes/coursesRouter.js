@@ -77,7 +77,7 @@ router.put(
     let isAdmin = req.user.isAdmin;
     if (isAdmin) {
       try {
-        let { name, courseid, isActive, _id } = req.body;
+        let { name, isActive, _id } = req.body;
         const filter = { _id };
         let updatedCourse = {
           name,
@@ -99,7 +99,6 @@ router.put(
           return res.status(400).json({
             message: `Couldn't find Course with name: ${name}`,
             name,
-            courseid,
             isActive,
             _id,
           });

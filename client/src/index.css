@@ -74,6 +74,9 @@ code {
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+.view-my-courses-table {
+  background-color: #3498db;
+}
 .add-course {
   background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
 }
@@ -109,6 +112,7 @@ code {
 .enroll-course,
 .add-course,
 .view-courses-table,
+.view-my-courses-table,
 .delete-course,
 .delete-user,
 .view-users-table {

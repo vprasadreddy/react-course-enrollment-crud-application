@@ -153,7 +153,7 @@ function EnrollCourse() {
     <div>
       <React.Fragment>
         <div className="container-fluid h-100">
-          <div className="row d-flex justify-content-center align-items-center h-100 mx-auto mt-5 enrollcourse-box">
+          <div className="row d-flex justify-content-center align-items-center h-100 mx-auto mt-2 enrollcourse-box">
             <h3 className="d-flex justify-content-center">Enroll a Course</h3>
             <form onSubmit={handleSubmit(onSubmit, onError)} autoComplete="off">
               <div className="row mb-3">

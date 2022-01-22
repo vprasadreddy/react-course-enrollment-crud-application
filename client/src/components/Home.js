@@ -76,7 +76,7 @@ function Home() {
   return (
     <React.Fragment>
       <div className="container-fluid h-100">
-        <h1 className="d-flex justify-content-center mt-5">
+        <h1 className="d-flex justify-content-center mt-2">
           Welcome, {username}
         </h1>
         <div className="row d-flex justify-content-center align-items-center enrollments-row">

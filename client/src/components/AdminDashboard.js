@@ -214,7 +214,6 @@ function AdminDashboard() {
           updatedCourse,
           headers
         );
-        console.log(response.data);
         getCourses();
         updateCourseModalClose();
         toast.success("course updated successfully");
@@ -246,7 +245,7 @@ function AdminDashboard() {
   return (
     <React.Fragment>
       <div className="container-fluid h-100">
-        <h1 className="d-flex justify-content-center mt-3">
+        <h1 className="d-flex justify-content-center mt-2">
           Hello, {myProfileData?.user?.name ?? ""}
         </h1>
         <div className="row d-flex justify-content-center align-items-center enrollments-row">

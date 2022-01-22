@@ -55,7 +55,7 @@ router.post("/enrollCourse", authenticate, async (req, res) => {
   }
 });
 
-//Enroll in a course
+//Delete enrollment
 router.delete("/deleteEnrollment", authenticate, async (req, res) => {
   let userid = req.user.id;
   let username = req.user.name;
@@ -73,17 +73,17 @@ router.delete("/deleteEnrollment", authenticate, async (req, res) => {
         userid,
         courseid,
       });
-      res.status(200).json({
+      return res.status(200).json({
         message: "Enrollment deleted successfully",
         enrollment: deletedCourse,
       });
     } else {
-      res.status(400).json({
+      return res.status(400).json({
         message: `Couldn't find the enrollment for the user: ${username} with course id: ${courseid} to delete.`,
       });
     }
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       message: error,
     });
   }
