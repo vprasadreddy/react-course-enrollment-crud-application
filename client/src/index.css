@@ -60,10 +60,8 @@ code {
   margin-top: 3rem !important;
 }
 
-.view-my-courses,
-.view-users-table {
-  /* background-color: #3498db !important; */
-  background: #8e2de2; /* fallback for old browsers */
+.view-my-courses {
+  background: #4a00e0; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
     #4a00e0,
@@ -76,13 +74,19 @@ code {
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-.add-course,
-.view-courses-table {
+.add-course {
   background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
 }
 
 .delete-course {
   background-image: linear-gradient(180deg, #2af598 0%, #009efd 100%);
+}
+
+.view-courses-table {
+  background: #fda085;
+}
+.view-users-table {
+  background: #4a00e0;
 }
 
 .enroll-course {
@@ -131,7 +135,7 @@ code {
 
 @media only screen and (max-height: 7000px) {
   .container-fluid {
-    padding-bottom: 50px !important;
+    padding-bottom: 3.125rem !important;
   }
 }
 
@@ -148,8 +152,8 @@ code {
   height: 3.125rem !important;
   cursor: pointer !important;
   position: fixed !important;
-  bottom: 10px !important;
-  right: 21px !important;
+  bottom: 0 !important;
+  right: 1rem !important;
   margin: 1rem;
   color: #f1c40f !important;
   z-index: 9999 !important;
