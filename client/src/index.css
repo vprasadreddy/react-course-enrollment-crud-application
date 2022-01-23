@@ -76,7 +76,7 @@ code {
 }
 
 .view-my-courses-table {
-  background-color: #3498db;
+  background-color: #f0ad4e;
 }
 .add-course {
   background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
@@ -88,9 +88,6 @@ code {
 
 .view-courses-table {
   background: #f0ad4e;
-}
-.view-users-table {
-  background: #4a00e0;
 }
 
 .enroll-course {
@@ -121,6 +118,10 @@ code {
   border-radius: 0.9375rem !important;
   cursor: pointer;
   border-style: none;
+}
+
+.view-users-table {
+  background-color: #4a00e0 !important;
 }
 
 .view-my-courses-body,
