@@ -24,7 +24,8 @@ code {
     monospace;
 }
 
-.login-box {
+.login-box,
+.register-box {
   max-width: 400px;
   border-radius: 5px;
   background-color: #ecf0f1;
@@ -86,7 +87,7 @@ code {
 }
 
 .view-courses-table {
-  background: #fda085;
+  background: #f0ad4e;
 }
 .view-users-table {
   background: #4a00e0;
