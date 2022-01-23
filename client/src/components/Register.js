@@ -53,7 +53,7 @@ function Register() {
       setTimeout(() => {
         history("/login");
         //return <Navigate replace to="/viewMyCourses" />;
-      }, 2000);
+      }, 1000);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -77,11 +77,11 @@ function Register() {
                   id="name"
                   name="name"
                   placeholder="Name"
-                  value={registerFormData.name}
+                  value={name}
                   {...register("name", { required: true })}
                   onChange={handleInputChange}
                 />
-                {errors.email && (
+                {errors.name && (
                   <span className="form-text small text-danger">
                     Name is required
                   </span>
@@ -99,7 +99,7 @@ function Register() {
                   id="email"
                   name="email"
                   placeholder="Email"
-                  value={registerFormData.email}
+                  value={email}
                   {...register("email", { required: true })}
                   onChange={handleInputChange}
                 />
@@ -121,7 +121,7 @@ function Register() {
                   id="password"
                   name="password"
                   placeholder="Password"
-                  value={registerFormData.password}
+                  value={password}
                   {...register("password", { required: true })}
                   onChange={handleInputChange}
                 />

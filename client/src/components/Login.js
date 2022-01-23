@@ -85,7 +85,11 @@ function Login() {
     <React.Fragment>
       <div className="container-fluid h-100">
         <div className="row d-flex justify-content-center align-items-center h-100 mx-auto mt-5 login-box">
-          <h3 className="d-flex justify-content-center">Login</h3>
+          <div className="row">
+            <div className="col-sm-12">
+              <h3 className="d-flex justify-content-center">Login</h3>
+            </div>
+          </div>
           <form onSubmit={handleSubmit(onSubmit, onError)} autoComplete="off">
             <div className="row mb-3">
               <label htmlFor="email" className="col-sm-12 col-form-label">
@@ -97,6 +101,7 @@ function Login() {
                   className="form-control"
                   id="email"
                   name="email"
+                  placeholder="Email"
                   value={email}
                   {...register("email", { required: true })}
                   onChange={handleInputChange}
@@ -118,6 +123,7 @@ function Login() {
                   className="form-control"
                   id="password"
                   name="password"
+                  placeholder="Password"
                   value={password}
                   {...register("password", { required: true })}
                   onChange={handleInputChange}
