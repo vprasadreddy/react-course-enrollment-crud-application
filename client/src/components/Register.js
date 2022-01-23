@@ -61,96 +61,91 @@ function Register() {
 
   const onError = (errors, e) => console.log(errors, e);
   return (
-    <div>
-      <React.Fragment>
-        <div className="container-fluid h-100">
-          <div className="row d-flex justify-content-center align-items-center h-100 mx-auto mt-5 register-box">
-            <h3 className="d-flex justify-content-center">Register</h3>
-            <form onSubmit={handleSubmit(onSubmit, onError)} autoComplete="off">
-              <div className="row mb-3">
-                <label htmlFor="name" className="col-sm-12 col-form-label">
-                  Name
-                </label>
-                <div className="col-sm-12">
-                  <input
-                    type="name"
-                    className="form-control"
-                    id="name"
-                    name="name"
-                    placeholder="Name"
-                    value={registerFormData.name}
-                    {...register("name", { required: true })}
-                    onChange={handleInputChange}
-                  />
-                  {errors.email && (
-                    <span className="form-text small text-danger">
-                      Name is required
-                    </span>
-                  )}
-                </div>
+    <React.Fragment>
+      <div className="container-fluid h-100">
+        <div className="row d-flex justify-content-center align-items-center h-100 mx-auto mt-5 register-box">
+          <h3 className="d-flex justify-content-center">Register</h3>
+          <form onSubmit={handleSubmit(onSubmit, onError)} autoComplete="off">
+            <div className="row mb-3">
+              <label htmlFor="name" className="col-sm-12 col-form-label">
+                Name
+              </label>
+              <div className="col-sm-12">
+                <input
+                  type="name"
+                  className="form-control"
+                  id="name"
+                  name="name"
+                  placeholder="Name"
+                  value={registerFormData.name}
+                  {...register("name", { required: true })}
+                  onChange={handleInputChange}
+                />
+                {errors.email && (
+                  <span className="form-text small text-danger">
+                    Name is required
+                  </span>
+                )}
               </div>
-              <div className="row mb-3">
-                <label htmlFor="email" className="col-sm-12 col-form-label">
-                  Email
-                </label>
-                <div className="col-sm-12">
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    placeholder="Email"
-                    value={registerFormData.email}
-                    {...register("email", { required: true })}
-                    onChange={handleInputChange}
-                  />
-                  {errors.email && (
-                    <span className="form-text small text-danger">
-                      Email is required
-                    </span>
-                  )}
-                </div>
+            </div>
+            <div className="row mb-3">
+              <label htmlFor="email" className="col-sm-12 col-form-label">
+                Email
+              </label>
+              <div className="col-sm-12">
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  value={registerFormData.email}
+                  {...register("email", { required: true })}
+                  onChange={handleInputChange}
+                />
+                {errors.email && (
+                  <span className="form-text small text-danger">
+                    Email is required
+                  </span>
+                )}
               </div>
-              <div className="row mb-3">
-                <label
-                  htmlFor="inputpassword"
-                  className="col-sm-12 col-form-label"
-                >
-                  Password
-                </label>
-                <div className="col-sm-12">
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    name="password"
-                    placeholder="Password"
-                    value={registerFormData.password}
-                    {...register("password", { required: true })}
-                    onChange={handleInputChange}
-                  />
-                  {errors.password && (
-                    <span className="form-text small text-danger">
-                      Password is required
-                    </span>
-                  )}
-                </div>
+            </div>
+            <div className="row mb-3">
+              <label htmlFor="password" className="col-sm-12 col-form-label">
+                Password
+              </label>
+              <div className="col-sm-12">
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  value={registerFormData.password}
+                  {...register("password", { required: true })}
+                  onChange={handleInputChange}
+                />
+                {errors.password && (
+                  <span className="form-text small text-danger">
+                    Password is required
+                  </span>
+                )}
               </div>
-              <input
-                type="submit"
-                name="submit"
-                value="Register"
-                className="btn btn-warning text-white"
-              />
-              <span className="form-text small mt-3">
-                Already registered? Click
-                <Link to="/login"> here</Link> to login.
-              </span>
-            </form>
-          </div>
+            </div>
+            <input
+              type="submit"
+              name="submit"
+              value="Register"
+              className="btn btn-warning text-white"
+            />
+            <span className="form-text small mt-3">
+              Already registered? Click
+              <Link to="/login"> here</Link> to login.
+            </span>
+          </form>
         </div>
-      </React.Fragment>
-    </div>
+      </div>
+    </React.Fragment>
   );
 }
 
